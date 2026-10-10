@@ -1,0 +1,124 @@
+/* A 方案后续整理：只覆盖学生端和由学生端打开的浮层。 */
+.v2-app-student,
+body:has(.v2-app-student) .v2-modal-layer,
+body:has(.v2-app-student) .v2-drawer-layer,
+body:has(.v2-app-student) .v2-map-picker-layer{accent-color:#3f6679}
+
+/* 搜索：桌面保留轻微展开，手机在固定位置淡入，避免宽度与定位动画叠加。 */
+.v2-app-student .v2-student-search.is-open{width:min(380px,calc(100vw - 380px))}
+.v2-app-student .v2-student-search-field{border-color:#d2e0e3;border-radius:8px;box-shadow:0 8px 22px #1b384014;color:#587783}
+.v2-app-student .v2-student-search-field:focus-within{border-color:#8caab4;box-shadow:0 0 0 3px #eaf1f2}
+.v2-app-student .v2-student-search-field input::placeholder{color:#8da1aa}
+.v2-app-student .v2-student-search-clear,.v2-app-student .v2-student-search-close{color:#78919a}
+.v2-app-student .v2-student-search-clear:hover,.v2-app-student .v2-student-search-close:hover{background:#eef3f4;color:#3f6679}
+.v2-app-student .v2-student-search-panel{border:1px solid #dbe6e8;border-radius:10px;box-shadow:0 16px 38px #203a4426}
+.v2-app-student .v2-student-search-panel-inner{border:0;border-radius:10px}
+.v2-app-student .v2-student-search-heading{color:#2b404a}.v2-app-student .v2-student-search-heading small{color:#8aa0a9}
+.v2-app-student .v2-student-search-result:hover,.v2-app-student .v2-student-search-result:focus-visible{background:#eff4f4}
+.v2-app-student .v2-student-search-art{background:#e8f0f1;color:#446b7c}
+.v2-app-student .v2-student-search-result-copy strong{color:#21343f}.v2-app-student .v2-student-search-result-copy small{color:#82979f}
+.v2-app-student .v2-student-search-footer{border-top-color:#e5edee}.v2-app-student .v2-student-search-footer span{color:#97a8ae}
+
+/* 搜索框、输入框和所有原生选择框使用同一层级与焦点反馈。 */
+.v2-app-student :is(.v2-search-field,.v2-alumni-search,.v2-network-filters input:not([type=checkbox]),.v2-explorer-select select),
+.v2-app-student .v2-form :is(input:not([type=checkbox]):not([type=file]),textarea,select),
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) .v2-form :is(input:not([type=checkbox]):not([type=file]),textarea,select),
+body:has(.v2-app-student) .v2-location-choice input{border:1px solid #d7e2e5;border-radius:8px;background-color:#fff;color:#263d49;box-shadow:none;transition:border-color .18s,box-shadow .18s,background-color .18s}
+.v2-app-student :is(.v2-search-field,.v2-alumni-search,.v2-network-filters input:not([type=checkbox]),.v2-explorer-select select):focus-within,
+.v2-app-student .v2-form :is(input:not([type=checkbox]):not([type=file]),textarea,select):focus-visible,
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) .v2-form :is(input:not([type=checkbox]):not([type=file]),textarea,select):focus-visible,
+body:has(.v2-app-student) .v2-location-choice input:focus-visible{outline:0;border-color:#7ea0ad;box-shadow:0 0 0 3px #e8f0f1}
+.v2-app-student select,
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) select,
+body:has(.v2-app-student) .campus-map-panel select{appearance:none;-webkit-appearance:none;min-height:40px;padding:0 36px 0 12px;border:1px solid #d7e2e5;border-radius:8px;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23547480' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-position:right 11px center;background-repeat:no-repeat;color:#263d49;cursor:pointer;font:inherit;font-size:12px;transition:border-color .18s,box-shadow .18s,background-color .18s}
+.v2-app-student select:hover,body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) select:hover{border-color:#a8bec5;background-color:#fbfdfd}
+.v2-app-student select:focus-visible,body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) select:focus-visible{outline:0;border-color:#7ea0ad;box-shadow:0 0 0 3px #e8f0f1}
+.v2-app-student select:disabled,body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) select:disabled{cursor:not-allowed;background-color:#f2f5f5;color:#91a2a9}
+.v2-app-student .v2-animated-search-trigger:hover{border-color:#a9c0c8;background:#f3f7f7}
+.v2-app-student .v2-animated-search-field button:hover{background:#eef3f4}
+
+/* “我的”关系网：搜索优先，筛选紧随其后；搜索结果可一键清空。 */
+.v2-app-student .v2-network-filters{display:grid;grid-template-columns:minmax(240px,320px) minmax(125px,155px) minmax(125px,155px) auto auto;gap:10px 12px;justify-content:start;align-items:end}
+.v2-app-student .v2-network-filters>.v2-network-search{display:grid;gap:6px;min-width:0}
+.v2-app-student .v2-network-search>label{display:flex;justify-content:space-between;color:#607b86;font-size:11px}
+.v2-app-student .v2-network-search>label small{color:#77919b;font-size:10px;font-weight:600}
+.v2-app-student .v2-network-search-field{display:flex;align-items:center;gap:8px;min-height:40px;padding:0 10px;border:1px solid #d7e2e5;border-radius:8px;background:#fff;color:#718f9a;transition:border-color .18s,box-shadow .18s}
+.v2-app-student .v2-network-search-field:focus-within{border-color:#7ea0ad;box-shadow:0 0 0 3px #e8f0f1}
+.v2-app-student .v2-network-filters .v2-network-search-field input:not([type=checkbox]){flex:1;width:100%;min-height:38px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;outline:0;color:#263d49}
+.v2-app-student .v2-network-search-field input::placeholder{color:#91a3aa}
+.v2-app-student .v2-network-search-field button{display:grid;place-items:center;flex:none;width:23px;height:23px;padding:0;border:0;border-radius:5px;background:transparent;color:#8199a2;cursor:pointer}
+.v2-app-student .v2-network-search-field button:hover{background:#eef3f4;color:#3f6679}
+.v2-app-student .v2-network-filters>label:not(.v2-network-check){min-width:0}
+.v2-app-student .v2-network-filters>.v2-network-check{white-space:nowrap;color:#607b86}
+.v2-app-student .v2-network-check input{accent-color:#3f6679}
+
+/* 多选标签、分段按钮与卡片选择保持低饱和度，不改变原有状态逻辑。 */
+.v2-app-student :is(.v2-tabs button,.v2-filter-pills button,.v2-activity-filter-options button,.v2-weekdays button,.v2-network-toolbar button){border-color:#dce6e8;background:#fff;color:#607b86;box-shadow:none;transition:border-color .18s,background-color .18s,color .18s,transform .18s}
+.v2-app-student :is(.v2-tabs button,.v2-filter-pills button,.v2-activity-filter-options button,.v2-weekdays button,.v2-network-toolbar button):hover{border-color:#a9c0c8;background:#f3f7f7;transform:none}
+.v2-app-student :is(.v2-tabs button,.v2-filter-pills button,.v2-activity-filter-options button,.v2-network-toolbar button).is-active,
+.v2-app-student .v2-network-list button[aria-pressed=true]{border-color:#a9c2ca;background:#eaf1f2;color:#365e70;box-shadow:none}
+.v2-app-student .v2-weekdays button.is-active{border-color:#3f6679;background:#3f6679;color:#fff;box-shadow:none}
+.v2-app-student :is(.v2-tabs button,.v2-filter-pills button,.v2-activity-filter-options button,.v2-weekdays button):focus-visible,
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer,.v2-map-picker-layer) button:focus-visible{outline:2px solid #7295a2;outline-offset:2px}
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer) :is(.v2-form-type button,.v2-partner-type-picker button,.v2-icon-options button,.v2-location-choice button){border-color:#dce6e8;background:#fff;color:#607b86;box-shadow:none}
+body:has(.v2-app-student) :is(.v2-modal-layer,.v2-drawer-layer) :is(.v2-form-type button,.v2-partner-type-picker button,.v2-icon-options button,.v2-location-choice button).is-active{border-color:#9fbbc5;background:#eaf1f2;color:#365e70}
+body:has(.v2-app-student) .v2-partner-form.type-carpool .v2-partner-type-picker button:first-child.is-active,
+body:has(.v2-app-student) .v2-partner-form.type-entertainment .v2-partner-type-picker button:nth-child(2).is-active,
+body:has(.v2-app-student) .v2-partner-form.type-study .v2-partner-type-picker button:nth-child(3).is-active{border-color:#9fbbc5;background:#eaf1f2;color:#365e70}
+body:has(.v2-app-student) .v2-map-picker-layer{--v2-blue:#3f6679;--v2-ink:#1a2b36;--v2-muted:#73868f;--v2-line:#dfe7e9}
+body:has(.v2-app-student) .v2-location-choice>div button.is-active{border-color:#9fbbc5;background:#eaf1f2;color:#365e70}
+
+/* 原功能页中的高亮蓝色降为 A 方案的石青色。 */
+.v2-app-student .v2-timetable-heading-icon,.v2-app-student .v2-service-card>span,.v2-app-student .v2-notice-icon,.v2-app-student .v2-queue-icon{background:#e8f0f1;color:#426b7c}
+.v2-app-student .v2-profile-avatar{background:#dce9ec;color:#426b7c}
+.v2-app-student .v2-course-time{border-right-color:#7899a5}.v2-app-student .v2-course-body>span,.v2-app-student .v2-course-body small{color:#748b96}
+.v2-app-student .v2-timetable-message,.v2-app-student .v2-network-demo{border-color:#d8e5e7;background:#edf3f3;color:#416778}
+.v2-app-student .v2-network-heading>svg,.v2-app-student .v2-recognition li.is-active{color:#426b7c}
+.v2-app-student .v2-timetable-upload{border-color:#adbfca;background:#f7fafa;color:#426b7c}
+.v2-app-student .v2-timetable-upload:focus-within{outline-color:#8eacb6}
+.v2-app-student .v2-relationship-self{border-color:#d0e0e4;background:#3f6679;box-shadow:none}
+.v2-app-student .v2-alumni-intro,.v2-app-student .v2-alumni-topics{background:#eaf1f2;color:#365b6e}
+.v2-app-student .v2-room-type,.v2-app-student .v2-member-chip,.v2-app-student .v2-active-filters button{background:#eaf1f2;color:#456b7b}
+.v2-app-student .v2-room-entertainment{background:#f2edf3;color:#75617a}.v2-app-student .v2-room-carpool{background:#eaf3ee;color:#4d7864}
+.v2-app-student .v2-activity-art,.v2-app-student .v2-detail-art{background-image:linear-gradient(135deg,#7e9ba6,#416b7c)}
+.v2-app-student .v2-sports-back:hover{background:#edf3f3}
+.v2-app-student .v2-bubble.is-mine p{border-color:#365a6b;background:#3f6679}
+.v2-app-student .v2-ticket-cover{background-image:linear-gradient(105deg,#354f5c,#557988)}
+.v2-app-student .v2-ticket-cover p{color:#dce8eb}.v2-app-student .v2-ticket-code strong{color:#365d70}
+.v2-app-student .v2-announcement-milestones button:before{border-color:#c9dce2;background:#5d8999;box-shadow:0 0 0 4px #e7eff1}
+.v2-app-student .v2-sport-stat-summary b{color:#416a7b}.v2-app-student .v2-sport-progress span{background-image:linear-gradient(90deg,#688c99,#8baeb8)}
+.v2-app-student .v2-coffee-topics span{background:#eaf1f2;color:#486e7e}.v2-app-student .v2-coffee-slot-status,.v2-app-student .v2-coffee-booking-panel>span{color:#426b7c}
+.v2-app-student .v2-coffee-slot.is-selected{border-color:#9eb9c3;background:#f0f5f5;box-shadow:none}
+.v2-app-student .v2-quick-nav-card.is-partners{background-image:linear-gradient(135deg,#3d606f,#5f8190)}
+.v2-app-student .v2-quick-nav-card.is-community{background-image:linear-gradient(135deg,#536e7b,#718c97)}
+.v2-app-student .v2-network-list button[aria-pressed=true]{border-color:#adc4cc}
+.v2-app-student .v2-network-visual{border-color:#dfe8ea;background:#fbfdfd}.v2-app-student .v2-network-canvas:focus-visible{outline-color:#8baab5}
+.v2-app-student .v2-network-toolbar{border-color:#dfe8ea;box-shadow:none}.v2-app-student .v2-network-toolbar button{color:#4b6d7b}
+.v2-app-student .v2-network-detail{border-color:#dfe8ea;background:#f8fbfb}.v2-app-student .v2-network-detail dd{color:#45616e}
+.v2-app-student .v2-network-stats svg,.v2-app-student .v2-network-stats strong,.v2-app-student .v2-network-detail>a{color:#426b7c}
+.v2-app-student .v2-network-legend i.self{background:#3f6679}.v2-app-student .v2-network-legend i.entity{border-color:#9fbac4;background:#edf3f4}
+.v2-app-student .v2-network-legend b.joined{border-color:#9cb7c0}.v2-app-student .v2-network-legend b.confirmed{border-color:#638b9a}
+.v2-app-student .v2-network-pagination button,.v2-app-student .v2-network-list button{border-color:#dce6e8;color:#426b7c}
+body:has(.v2-app-student) .v2-partner-form-intro,body:has(.v2-app-student) .v2-review-summary{border-color:#dce7e9;background:#f2f7f7}
+body:has(.v2-app-student) .v2-partner-form.type-carpool .v2-partner-form-intro,
+body:has(.v2-app-student) .v2-partner-form.type-entertainment .v2-partner-form-intro,
+body:has(.v2-app-student) .v2-partner-form.type-study .v2-partner-form-intro{border-color:#8eabb5;background:#f2f7f7}
+body:has(.v2-app-student) .v2-review-summary span{color:#426b7c}
+body:has(.v2-app-student) .v2-custom-icon-option.is-active{border-color:#a7c1ca;background:#eaf1f2}
+body:has(.v2-app-student) .v2-activity-location>button{border-color:#a8c0c8;background:#f4f8f8;color:#426b7c}
+body:has(.v2-app-student) .v2-activity-location>button:is(:hover,.is-selected){border-color:#789caa;background:#eaf2f3}
+
+@media(max-width:720px){
+  .v2-app-student .v2-student-search{transition:none}
+  .v2-app-student .v2-student-search.is-open{position:absolute;top:9px;left:51px;right:14px;width:auto;height:40px}
+  .v2-app-student .v2-student-search-field{transform:none;transition:none}
+  .v2-app-student .v2-student-search.is-open .v2-student-search-field{transform:none}
+  .v2-app-student .v2-student-search-panel{right:0;width:calc(100vw - 28px);max-height:min(70dvh,470px);overflow-y:auto}
+  .v2-app-student .v2-student-search-result{min-height:53px}
+  .v2-app-student .v2-student-search-footer span{display:none}
+  .v2-app-student .v2-network-filters{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .v2-app-student .v2-network-filters>.v2-network-search{grid-column:1/-1;grid-row:1}
+  .v2-app-student .v2-network-filters>.v2-network-check{min-height:30px}
+}
+@media(min-width:721px) and (max-width:1180px){.v2-app-student .v2-network-filters{grid-template-columns:minmax(200px,1fr) repeat(2,minmax(115px,150px))}.v2-app-student .v2-network-filters>.v2-network-check{grid-row:2;min-height:28px}}
+@media(prefers-reduced-motion:reduce){.v2-app-student .v2-student-search,.v2-app-student .v2-student-search-field{transition:none}}

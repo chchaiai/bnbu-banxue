@@ -1,4 +1,4 @@
-import { Activity, ArrowRight, Bell, BookOpen, Bookmark, CalendarDays, CarFront, ChevronRight, Clapperboard, Clock3, MapPin, Megaphone, MessageCircle, Plus, Search, Send, SlidersHorizontal, UsersRound, X } from 'lucide-react'
+import { ArrowRight, Bell, BookOpen, Bookmark, CalendarDays, CarFront, ChevronRight, Clapperboard, Clock3, MapPin, Megaphone, MessageCircle, Plus, Search, Send, SlidersHorizontal, UsersRound, X } from 'lucide-react'
 import { useMemo, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import FlexCarousel from '../components/reactbits/FlexCarousel/FlexCarousel'
@@ -21,26 +21,20 @@ const formatWhen = (value: string) => new Intl.DateTimeFormat('zh-CN', { month: 
 export function V2Home() {
   const { state } = useV2()
   const schedule = studentSchedule(state)
-  const upcoming = schedule.filter(item => item.kind === 'activity')
-  const pending = state.applications.filter((item) => item.status === 'pending').length + state.rooms.reduce((count, room) => count + (room.owner === studentName ? room.requests.length : 0), 0)
+  const next = schedule[0]
+  const roomRequests = state.rooms.reduce((count, room) => count + (room.owner === studentName ? room.requests.length : 0), 0)
+  const unreadMessages = state.conversations.reduce((count, conversation) => count + conversation.unread, 0)
+  const unreadNotices = state.notifications.filter((notice) => !notice.read).length
+  const now = new Date()
+  const today = `${new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric' }).format(now)}，${new Intl.DateTimeFormat('zh-CN', { weekday: 'long' }).format(now)}`
   return <div className="v2-page v2-home">
-    <section className="v2-home-hero" style={{ backgroundImage: `linear-gradient(95deg,rgba(4,22,54,.94),rgba(4,39,87,.72) 55%,rgba(4,24,54,.1)),url(${campusPhoto})` }}>
-      <span className="v2-eyebrow">2026 秋季学期 · BNBU CAMPUS</span><h1>你好，{state.profile?.nickname ?? studentName}</h1><p>今天在校园里，先从你关心的事情开始。</p>
-      <div className="v2-home-hero-actions"><Link className="v2-button v2-button-light" to="/v2/activities">发现活动 <ArrowRight size={16}/></Link><Link className="v2-button v2-button-outline-light" to="/v2/partners">找搭子 <ArrowRight size={16}/></Link></div>
-    </section>
-    <div className="v2-home-stats">
-      <Link to="/v2/activities"><CalendarDays size={22}/><span><strong>{upcoming.length}</strong><small>接下来的活动</small></span><ArrowRight size={16}/></Link>
-      <Link to="/v2/partners/teams"><UsersRound size={22}/><span><strong>{pending}</strong><small>组队待处理</small></span><ArrowRight size={16}/></Link>
-      <Link to="/v2/sports" className="v2-sport-stat" aria-label="运动进度，已完成 16 小时，目标 20 小时，进入体育运动平台">
-        <div className="v2-sport-stat-head"><span className="v2-sport-stat-icon"><Activity size={20}/></span><span className="v2-sport-stat-title"><strong>运动进度</strong></span><span className="v2-sport-stat-percent">80%</span></div>
-        <div className="v2-sport-stat-summary"><span className="v2-sport-stat-value"><strong>16</strong><em> / 20 小时</em></span><small>距离目标还差 <b>4 小时</b></small></div>
-        <div className="v2-sport-progress" role="progressbar" aria-label="运动目标完成进度" aria-valuenow={16} aria-valuemin={0} aria-valuemax={20}><span/></div>
-      </Link>
+    <header className="v2-a-home-heading"><span className="v2-eyebrow">CAMPUS / TODAY</span><h1>今天，先做好下一件事</h1><p>你好，{state.profile?.nickname ?? studentName}。你的校园安排和需要处理的事项都在这里。</p><div className="v2-a-home-date"><strong>{today}</strong><span>·</span><span>{schedule.length} 项近期安排</span></div></header>
+    <div className="v2-a-home-primary">
+      <section className="v2-panel v2-a-next-card"><span className="v2-eyebrow">下一步 · {next ? next.label : '从这里开始'}</span>{next ? <><strong className="v2-a-next-time">{next.startAt ? formatWhen(next.startAt) : next.time}</strong><h2>{next.title}</h2><p><MapPin size={15}/>{next.location}</p><div className="v2-a-next-actions"><Link className="v2-button v2-button-primary" to={next.path}>查看详情 <ArrowRight size={16}/></Link><Link className="v2-button v2-button-secondary" to="/v2/activities">发现活动</Link></div></> : <><h2>发现你的下一件校园事</h2><p>标记感兴趣的活动，或加入搭子队伍，安排会自动显示在这里。</p><div className="v2-a-next-actions"><Link className="v2-button v2-button-primary" to="/v2/activities">发现活动 <ArrowRight size={16}/></Link><Link className="v2-button v2-button-secondary" to="/v2/partners">找搭子</Link></div></>}</section>
+      <section className="v2-panel v2-a-task-card"><SectionHeading title="待处理" detail="与你有关的新进展" action={<Link to="/v2/messages">全部消息 <ArrowRight size={14}/></Link>}/><div className="v2-a-task-list"><Link to="/v2/partners/teams"><span className="v2-a-task-count">{roomRequests}</span><span><strong>{roomRequests ? '组队申请等待答复' : '组队申请'}</strong><small>{roomRequests ? '前往我的队伍处理' : '目前无需答复'}</small></span><ArrowRight size={15}/></Link><Link to="/v2/messages"><span className="v2-a-task-count">{unreadMessages + unreadNotices}</span><span><strong>未读消息与通知</strong><small>聊天 {unreadMessages} 条 · 通知 {unreadNotices} 条</small></span><ArrowRight size={15}/></Link></div></section>
     </div>
-    <div className="v2-home-grid v2-home-grid-single"><section className="v2-panel v2-home-timeline"><SectionHeading title="近期校园安排" detail="已标记的活动、已加入的搭子与 Coffee Chat" action={<Link to="/v2/activities">查看活动 <ArrowRight size={15}/></Link>}/>
-      <div className="v2-timeline">{schedule.map((item, index) => <Link to={item.path} className="v2-timeline-item" style={{ animationDelay: `${index * 45}ms` }} key={item.id}><span className="v2-timeline-dot"/><span><small>{item.startAt ? formatWhen(item.startAt) : item.time}</small><strong>{item.title}</strong><em><MapPin size={13}/>{item.location}</em></span><b>{item.label}</b></Link>)}
-      {!schedule.length && <div className="v2-timeline-empty"><span className="v2-timeline-dot"/><div><strong>暂无近期安排</strong><p>标记参与活动、加入搭子或预约 Coffee Chat 后，会显示在这里。</p><Link to="/v2/activities">探索校园活动 <ArrowRight size={14}/></Link></div></div>}</div>
-    </section></div>
+    <div className="v2-a-home-secondary"><section className="v2-panel v2-a-schedule-card"><SectionHeading title="近期安排" detail="已标记的活动、已加入的搭子与 Coffee Chat" action={<Link to="/v2/me?tab=events">查看全部 <ArrowRight size={14}/></Link>}/><div className="v2-a-schedule-list">{schedule.slice(0, 4).map((item, index) => <Link to={item.path} key={item.id} style={{ animationDelay: `${index * 45}ms` }}><time>{item.startAt ? formatWhen(item.startAt) : item.time}</time><span><strong>{item.title}</strong><small>{item.location}</small></span><em>{item.label}</em></Link>)}{schedule.length === 0 && <div className="v2-a-schedule-empty">暂无近期安排。<Link to="/v2/activities">去看看校园活动 <ArrowRight size={14}/></Link></div>}</div></section>
+      <section className="v2-panel v2-a-campus-card"><SectionHeading title="校园里正在发生" detail="从校园探索新的活动" action={<Link to="/v2/campus/explore">探索校园 <ArrowRight size={14}/></Link>}/><Link to="/v2/campus/explore" className="v2-a-campus-photo"><img src={campusPhoto} alt="校园建筑与树木"/></Link><h3>从地图上查看楼栋与活动</h3><p>找到地点，再决定今天要去哪里。</p><Link to="/v2/sports" className="v2-a-sport-mini"><span>运动进度 · 本地演示数据</span><strong>16 / 20 小时</strong><span className="v2-a-sport-track"><i/></span></Link></section></div>
   </div>
 }
 
@@ -94,7 +88,7 @@ export function V2Activities() {
     try { setState(changeActivityVisibility(state, eventId)); setPublishError('') }
     catch (error) { setPublishError(error instanceof Error ? error.message : '操作失败') }
   }
-  return <div className="v2-page v2-activities"><PageHeading eyebrow="DISCOVER CAMPUS" title="发现活动" description="认识新的人，参与正在发生的校园生活。" action={permitted && <button className="v2-button v2-button-primary" type="button" onClick={() => { setPublishError(''); setCreateOpen(true) }}><Plus size={17}/> 发起活动</button>}/>
+  return <div className="v2-page v2-activities"><PageHeading eyebrow="DISCOVER / EVENTS" title="发现活动" description="重点活动先看清，其他活动按分类浏览。" action={permitted && <button className="v2-button v2-button-primary" type="button" onClick={() => { setPublishError(''); setCreateOpen(true) }}><Plus size={17}/> 发起活动</button>}/>
     {featuredItems.length > 0 && <section className="v2-featured-events"><div className="v2-featured-carousel"><FlexCarousel items={featuredItems.map((event) => ({ src: event.image!, alt: event.title, title: event.title, subtitle: `${event.category} · ${formatWhen(event.startAt)}` }))} preset="liquid" intro="rise" fit="natural" cardHeight={0.6} gap={12} radius={16} squeeze={0.2} focusOnClick={false} focusOnHover focusScale={1} captions onChange={setFeatured} onSelect={(index) => navigate(`${activityBase}/${featuredItems[index].id}`)}/></div>{selectedFeatured && <div className="v2-featured-copy"><span className="v2-eyebrow">本周精选 · {selectedFeatured.category}</span><h2>{selectedFeatured.title}</h2><p>{selectedFeatured.subtitle}</p><div><span><CalendarDays size={15}/>{formatWhen(selectedFeatured.startAt)}</span><span><MapPin size={15}/>{selectedFeatured.location}</span></div><Link className="v2-button v2-button-light" to={`${activityBase}/${selectedFeatured.id}`}>查看活动 <ArrowRight size={16}/></Link></div>}</section>}
     <section className="v2-panel v2-list-panel">
       <SectionHeading title="所有活动" detail={`${filtered.length} 个结果`} />

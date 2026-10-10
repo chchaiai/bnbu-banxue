@@ -3,16 +3,16 @@ import fcose from 'cytoscape-fcose'
 import type { GraphNode, GraphEdge } from './relationshipAdapter'
 cytoscape.use(fcose)
 export const relationshipStyles: StylesheetStyle[] = [
-  { selector: 'node', style: { width: 180, height: 68, shape: 'round-rectangle', 'background-color': '#edf3ff', 'border-color': '#a4bbff', 'border-width': 2, label: 'data(label)', color: '#264a91', 'font-size': 18, 'font-family': 'Inter, "PingFang SC", "Microsoft YaHei", sans-serif', 'text-valign': 'center', 'text-halign': 'center', 'text-wrap': 'ellipsis', 'text-max-width': '158px', 'min-zoomed-font-size': 8, 'overlay-opacity': 0 } },
-  { selector: 'node[kind = "self"]', style: { shape: 'ellipse', width: 92, height: 92, 'background-color': '#0440fb', 'border-color': '#0440fb', 'font-size': 27, 'font-weight': 'bold', color: '#fff' } },
+  { selector: 'node', style: { width: 180, height: 68, shape: 'round-rectangle', 'background-color': '#edf3f4', 'border-color': '#9fbac4', 'border-width': 2, label: 'data(label)', color: '#355d6e', 'font-size': 18, 'font-family': 'Inter, "PingFang SC", "Microsoft YaHei", sans-serif', 'text-valign': 'center', 'text-halign': 'center', 'text-wrap': 'ellipsis', 'text-max-width': '158px', 'min-zoomed-font-size': 8, 'overlay-opacity': 0 } },
+  { selector: 'node[kind = "self"]', style: { shape: 'ellipse', width: 92, height: 92, 'background-color': '#3f6679', 'border-color': '#3f6679', 'font-size': 27, 'font-weight': 'bold', color: '#fff' } },
   { selector: 'node[kind = "person"]', style: { shape: 'ellipse', width: 76, height: 76, 'background-color': '#e4f5eb', 'border-color': '#a5d8bc', color: '#25634b', 'font-size': 17, 'text-max-width': '62px' } },
-  { selector: 'edge', style: { width: 2, 'line-color': '#98b5fb', 'curve-style': 'bezier', 'target-arrow-shape': 'none', 'line-style': 'solid', 'overlay-opacity': 0 } },
-  { selector: 'edge[relation = "marked"], edge[relation = "followed"]', style: { 'line-style': 'dashed', 'line-color': '#91a5c7', 'line-dash-pattern': [6, 5] } },
-  { selector: 'edge[relation = "booked"], edge[relation = "confirmed"]', style: { 'line-color': '#4279db', width: 3 } },
+  { selector: 'edge', style: { width: 2, 'line-color': '#9cb7c0', 'curve-style': 'bezier', 'target-arrow-shape': 'none', 'line-style': 'solid', 'overlay-opacity': 0 } },
+  { selector: 'edge[relation = "marked"], edge[relation = "followed"]', style: { 'line-style': 'dashed', 'line-color': '#a2b7bf', 'line-dash-pattern': [6, 5] } },
+  { selector: 'edge[relation = "booked"], edge[relation = "confirmed"]', style: { 'line-color': '#638b9a', width: 3 } },
   { selector: 'edge[relation = "shared"]', style: { 'line-style': 'dashed', 'line-color': '#8abdaa', 'line-dash-pattern': [5, 5] } },
   { selector: 'edge[?history]', style: { 'line-style': 'dotted', 'line-color': '#afb7c6', opacity: .7 } },
   { selector: '.muted', style: { opacity: .18 } },
-  { selector: 'node.highlight', style: { 'border-width': 4, 'border-color': '#4279db' } },
+  { selector: 'node.highlight', style: { 'border-width': 4, 'border-color': '#638b9a' } },
   { selector: 'edge.highlight', style: { width: 4 } },
 ]
 export function graphElements(graph: { nodes: GraphNode[]; edges: GraphEdge[] }): ElementDefinition[] {

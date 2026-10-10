@@ -21,6 +21,7 @@ export function StudentSearch() {
   const inputRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const previousPath = useRef(location.pathname)
+  const previousOpen = useRef(false)
 
   const allResults = useMemo<SearchResult[]>(() => [
     ...state.localEvents.filter((event) => event.status === 'published').map((event) => ({ id: event.id, title: event.title, meta: `活动 · ${event.location}`, keywords: event.description, path: `/v2/activities/${event.id}`, kind: 'event' as const })),
@@ -67,10 +68,14 @@ export function StudentSearch() {
     const panel = panelRef.current
     if (!panel) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    gsap.to(panel, { height: open ? 'auto' : 0, opacity: open ? 1 : 0, duration: reduced ? 0 : .38, ease: 'power3.out', overwrite: true })
-    if (open && !reduced) gsap.fromTo(panel.querySelectorAll('.v2-student-search-result'), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .32, stagger: .045, ease: 'power3.out', overwrite: true })
+    const mobile = window.matchMedia('(max-width: 720px)').matches
+    const opening = open && !previousOpen.current
+    previousOpen.current = open
+    gsap.to(panel, { height: open ? 'auto' : 0, opacity: open ? 1 : 0, duration: reduced || mobile && !open ? 0 : mobile ? .22 : .32, ease: 'power3.out', overwrite: true })
+    if (opening && !reduced && !mobile) gsap.fromTo(panel.querySelectorAll('.v2-student-search-result'), { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: .26, stagger: .035, ease: 'power3.out', overwrite: true })
+    else gsap.set(panel.querySelectorAll('.v2-student-search-result'), { clearProps: 'opacity,transform' })
     return () => { gsap.killTweensOf(panel); gsap.killTweensOf(panel.querySelectorAll('.v2-student-search-result')) }
-  }, [open, normalized, results.length])
+  }, [open, results.length])
 
   const choose = (path: string) => { close(); navigate(path) }
 
